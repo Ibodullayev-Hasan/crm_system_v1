@@ -7,6 +7,7 @@ import { AuthModule } from './module/auth/auth.module';
 import { UserModule } from './module/user/user.module';
 import { TenantModule } from './module/tenant/tenant.module';
 import { SubscriptionModule } from './module/subscription/subscription.module';
+import { AppController } from './app.controller';
 
 
 @Module({
@@ -34,6 +35,7 @@ import { SubscriptionModule } from './module/subscription/subscription.module';
     TenantModule,
     SubscriptionModule,
   ],
+  controllers:[AppController],
   providers: [
     {
       provide: APP_FILTER,
