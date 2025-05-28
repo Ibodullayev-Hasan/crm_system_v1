@@ -33,7 +33,7 @@ async function bootstrap() {
     app.enableVersioning({ type: VersioningType.URI, defaultVersion: configs.app.version, })
 
     // exeption filter
-    // app.useGlobalFilters(new NotFoundExceptionFilter())
+    app.useGlobalFilters(new NotFoundExceptionFilter())
 
     // CORS configuration
     app.enableCors({
