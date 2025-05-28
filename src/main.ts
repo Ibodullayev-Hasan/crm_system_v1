@@ -5,11 +5,12 @@ import { Logger, VersioningType } from '@nestjs/common';
 import { ValidationPipe } from '@nestjs/common';
 import { createWinstonLogger } from './shared/utils/logger';
 import { configs } from './config';
-import { AllExceptionsFilter } from './shared/filters/exceptions.filter';
 import { NotFoundExceptionFilter } from './shared/filters/router.exption.filter';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestApplication>(AppModule, {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger: createWinstonLogger(),
   });
 
@@ -27,11 +28,12 @@ async function bootstrap() {
       }),
     );
 
-
     // default prefix
     app.setGlobalPrefix(configs.app.prefix)
     app.enableVersioning({ type: VersioningType.URI, defaultVersion: configs.app.version, })
-
+    app.useStaticAssets(join(__dirname, '..', 'public'));
+    app.setBaseViewsDir(join(__dirname, '..', 'src', 'views'));
+    app.setViewEngine('hbs');
     // exeption filter
     app.useGlobalFilters(new NotFoundExceptionFilter())
 
