@@ -33,7 +33,7 @@ async function bootstrap() {
     app.enableVersioning({ type: VersioningType.URI, defaultVersion: configs.app.version, })
     app.useStaticAssets(join(__dirname, '..', 'public'));
     app.setBaseViewsDir(join(__dirname, '..', 'src', 'views'));
-    app.setViewEngine('hbs');
+    app.setViewEngine('ejs');
     // exeption filter
     app.useGlobalFilters(new NotFoundExceptionFilter())
 
