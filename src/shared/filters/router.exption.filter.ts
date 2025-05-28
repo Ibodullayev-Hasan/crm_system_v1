@@ -9,6 +9,7 @@ import {
 import { Request, Response } from 'express';
 
 export const allowedRoutes: { [path: string]: string[] } = {
+  '/': ['GET'],
   '/auth/register': ['POST'],
   '/auth/login': ['POST'],
   '/auth/refresh': ['POST'],
