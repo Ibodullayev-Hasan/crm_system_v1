@@ -6,7 +6,7 @@ import { Response } from 'express';
 export class AppController {
 	@Get()
 	getHello(@Res() res: Response) {
-		res.render('hello', { name: 'CRM' });
+		res.render('hello', {name:"CRM"});
 	}
 
 }
