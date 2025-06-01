@@ -20,7 +20,7 @@ export class AuthService {
   ) { }
 
   // register
-  async register(createUserDto: CreateUserDto): Promise<{ user: Omit<User, "password">, accessExpiresIn: string, accToken: string }> {
+  async register(createUserDto: CreateUserDto): Promise<{ user: Omit<User, "password">, accessExpiresIn: string, accToken: string, }> {
     try {
 
       const existingUser: User = await this.userModel.findOne({ email: createUserDto.email })
@@ -41,7 +41,7 @@ export class AuthService {
 
       await savedUser.save();
 
-      const { password, refresh_token, ...result } = savedUser.toObject()
+      const { password, ...result } = savedUser.toObject()
 
       return { user: result, accToken, accessExpiresIn }
     } catch (error: any) {
