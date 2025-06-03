@@ -19,7 +19,7 @@ async function bootstrap() {
   try {
     const configService = app.get(ConfigService)
 
-    // Global validation
+    // Global pipe
     app.useGlobalPipes(
       new ValidationPipe({
         whitelist: true,
@@ -30,10 +30,15 @@ async function bootstrap() {
 
     // default prefix
     app.setGlobalPrefix(configs.app.prefix)
+
+    // app version
     app.enableVersioning({ type: VersioningType.URI, defaultVersion: configs.app.version, })
+
+    // static files
     app.useStaticAssets(join(__dirname, '..', 'public'));
     app.setBaseViewsDir(join(__dirname, '..', 'src', 'views'));
     app.setViewEngine('ejs');
+
     // exeption filter
     app.useGlobalFilters(new NotFoundExceptionFilter())
 
@@ -44,6 +49,7 @@ async function bootstrap() {
     });
 
     const port = configService.get<number>("SERVER_PORT")
+    
     // server start
     await app.listen(port);
     logger.log(`🚀 Application is running on: http://localhost:${port}`);

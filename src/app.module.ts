@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -8,6 +8,7 @@ import { UserModule } from './module/user/user.module';
 import { TenantModule } from './module/tenant/tenant.module';
 import { SubscriptionModule } from './module/subscription/subscription.module';
 import { AppController } from './app.controller';
+import { DomenMiddleware } from './shared/middleware';
 
 
 @Module({
@@ -47,4 +48,6 @@ import { AppController } from './app.controller';
     // },
   ],
 })
-export class AppModule { }
+export class AppModule implements NestModule{configure(consumer: MiddlewareConsumer) {
+  consumer.apply(DomenMiddleware).forRoutes("*")
+} }
