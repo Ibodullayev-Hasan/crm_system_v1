@@ -36,18 +36,16 @@ import { DomenMiddleware } from './shared/middleware';
     TenantModule,
     SubscriptionModule,
   ],
-  controllers:[AppController],
+  controllers: [AppController],
   providers: [
     {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
-    },
-    // {
-    //   provide: APP_INTERCEPTOR,
-    //   useClass: LoggingInterceptor, // har bir request log qilinadi
-    // },
+    }
   ],
 })
-export class AppModule implements NestModule{configure(consumer: MiddlewareConsumer) {
-  consumer.apply(DomenMiddleware).forRoutes("*")
-} }
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(DomenMiddleware).forRoutes("*")
+  }
+}
