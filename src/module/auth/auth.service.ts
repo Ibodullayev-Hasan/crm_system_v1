@@ -41,7 +41,7 @@ export class AuthService {
 
       await savedUser.save();
 
-      const { password, ...result } = savedUser.toObject()
+      const { password, refresh_token, ...result } = savedUser.toObject()
 
       return { user: result, accToken, accessExpiresIn }
     } catch (error: any) {
@@ -52,7 +52,7 @@ export class AuthService {
   }
 
   // login
-  async login(loginDto: LoginDto): Promise<{ accToken: string, accessExpiresIn: string }> {
+  async login(loginDto: LoginDto): Promise<{ accToken: string, accessExpiresIn: string, refToken: string, refreshExpiresIn: string }> {
     try {
 
       const user: User = await this.userModel.findOne({ email: loginDto.email })
@@ -63,11 +63,11 @@ export class AuthService {
 
       if (!comparedPassword) throw new UnauthorizedException("Invlaid credentials")
 
-      const { accToken, accessExpiresIn, refToken } = await this.tokenService.tokenGenerator(user)
+      const { accToken, accessExpiresIn, refToken, refreshExpiresIn } = await this.tokenService.tokenGenerator(user)
 
       await this.userModel.findByIdAndUpdate(user.id, { refresh_token: refToken });
 
-      return { accToken, accessExpiresIn }
+      return { accToken, accessExpiresIn, refToken, refreshExpiresIn }
 
     } catch (error: any) {
       throw error instanceof HttpException

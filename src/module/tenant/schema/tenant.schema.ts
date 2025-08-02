@@ -5,7 +5,7 @@ import { Subscription } from "../../subscription/schema/subscription.schema";
 
 export type TenantDocument = Tenant & mongoose.Document
 
-@Schema()
+@Schema({ timestamps: true })
 export class Tenant implements ITenant {
 
 	@Prop({ required: true })
@@ -17,16 +17,10 @@ export class Tenant implements ITenant {
 	@Prop({ required: true })
 	tenant_phone: string;
 
-	@Prop()
-	createdAt: mongoose.Schema.Types.Date;
-
-	@Prop()
-	updatedAt: mongoose.Schema.Types.Date;
-
-	@Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Subscription' })
+	@Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Subscription', default: null })
 	subscription: Subscription | null;
 
-	@Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', unique: true })
+	@Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User'})
 	admin?: mongoose.Types.ObjectId;
 
 }

@@ -1,13 +1,12 @@
-import { NestApplication, NestFactory } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { Logger, VersioningType } from '@nestjs/common';
-import { ValidationPipe } from '@nestjs/common';
 import { createWinstonLogger } from './shared/utils/logger';
 import { configs } from './config';
 import { NotFoundExceptionFilter } from './shared/filters/router.exption.filter';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { join } from 'path';
+import { setupGlobalPipes } from './config/validation.config';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
@@ -20,24 +19,14 @@ async function bootstrap() {
     const configService = app.get(ConfigService)
 
     // Global pipe
-    app.useGlobalPipes(
-      new ValidationPipe({
-        whitelist: true,
-        forbidNonWhitelisted: true,
-        transform: true,
-      }),
-    );
+    setupGlobalPipes(app)
 
     // default prefix
     app.setGlobalPrefix(configs.app.prefix)
 
     // app version
     app.enableVersioning({ type: VersioningType.URI, defaultVersion: configs.app.version, })
-
-    // static files
-    app.useStaticAssets(join(__dirname, '..', 'public'));
-    app.setBaseViewsDir(join(__dirname, '..', 'src', 'views'));
-    app.setViewEngine('ejs');
+console.log(configs.db.uri);
 
     // exeption filter
     app.useGlobalFilters(new NotFoundExceptionFilter())
@@ -49,10 +38,10 @@ async function bootstrap() {
     });
 
     const port = configService.get<number>("SERVER_PORT")
-    
-    // server start
+
+    // server start   
     await app.listen(port);
-    logger.log(`🚀 Application is running on: http://localhost:${port}`);
+    logger.log(`🚀 Application is running on port ${port}`);
     logger.log(`🌱 Environment: ${configs.app.env}`);
   } catch (error: any) {
     logger.error(error.message)

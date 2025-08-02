@@ -25,7 +25,7 @@ export class User implements IUser {
 	@Prop()
 	refresh_token?: string
 
-	@Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Tenant', required: false })
+	@Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Tenant', required: false, default:null })
 	tenantId: mongoose.Types.ObjectId;
 }
 

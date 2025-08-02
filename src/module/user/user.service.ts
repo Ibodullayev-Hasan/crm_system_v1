@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -15,8 +15,27 @@ export class UserService {
     return this.userModel.findByIdAndUpdate(userId, { refresh_token: hashedRefreshToken })
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async userProfile(user: User): Promise<User> {
+    try {
+
+      const userData = await this.userModel.findById(user.id).populate("tenantId", "tenant_name").lean();
+
+      if (userData) {
+        userData.id = userData._id;
+        delete userData._id;
+        delete userData.password;
+        delete userData.refresh_token;
+        delete userData.__v;
+      }
+
+      return userData;
+
+
+    } catch (error: any) {
+      throw error instanceof HttpException
+        ? error
+        : new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
   findOne(id: number) {

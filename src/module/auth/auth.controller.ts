@@ -37,7 +37,7 @@ export class AuthController {
 
     const data: object = await this.authService.refresh(req.user)
 
-    res.json({ success: true, message: `access token refresh`, data })
+    res.json({ success: true, message: `Token refresh`, data })
   }
 
   // logOut

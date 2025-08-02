@@ -24,18 +24,21 @@ export class AllExceptionsFilter implements ExceptionFilter {
       ? exception.getStatus()
       : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    const message = isHttp
+    const getRes = isHttp
       ? exception.getResponse()
       : (exception as any)?.message || 'Internal server error';
 
     const stack = (exception as any)?.stack;
+    console.log(getRes["message"]);
 
     const errorResponse = {
       success: false,
       timestamp: new Date().toISOString(),
       path: request.url,
       method: request.method,
-      message,
+      error: getRes["error"],
+      errorStatus: status,
+      message: getRes["message"],
       stack: process.env.NODE_ENV !== 'production' ? stack : undefined, // Only in dev
     };
 

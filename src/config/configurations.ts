@@ -1,3 +1,5 @@
+import "dotenv/config"
+
 export const configs = {
 	app: {
 		port: parseInt((process.env.SERVER_PORT), 10) || 5000,
