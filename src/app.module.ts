@@ -7,7 +7,6 @@ import { AuthModule } from './module/auth/auth.module';
 import { UserModule } from './module/user/user.module';
 import { TenantModule } from './module/tenant/tenant.module';
 import { SubscriptionModule } from './module/subscription/subscription.module';
-import { AppController } from './app.controller';
 import { DomenMiddleware } from './shared/middleware';
 
 
@@ -36,7 +35,6 @@ import { DomenMiddleware } from './shared/middleware';
     TenantModule,
     SubscriptionModule,
   ],
-  controllers: [AppController],
   providers: [
     {
       provide: APP_FILTER,

@@ -1,5 +1,5 @@
 import { ConflictException, HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
-import { TokenService } from '../../shared/utils/token.service';
+import { TokenService } from '../../shared/services/token.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { User, UserDocument } from '../user/schema/user.schema';
 import { InjectModel } from '@nestjs/mongoose';

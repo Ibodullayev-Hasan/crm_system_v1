@@ -29,7 +29,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
       : (exception as any)?.message || 'Internal server error';
 
     const stack = (exception as any)?.stack;
-    console.log(getRes["message"]);
 
     const errorResponse = {
       success: false,

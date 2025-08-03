@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { Logger, VersioningType } from '@nestjs/common';
-import { createWinstonLogger } from './shared/utils/logger';
+import { createWinstonLogger } from './shared/services/logger';
 import { configs } from './config';
 import { NotFoundExceptionFilter } from './shared/filters/router.exption.filter';
 import { NestExpressApplication } from '@nestjs/platform-express';
@@ -26,7 +26,6 @@ async function bootstrap() {
 
     // app version
     app.enableVersioning({ type: VersioningType.URI, defaultVersion: configs.app.version, })
-console.log(configs.db.uri);
 
     // exeption filter
     app.useGlobalFilters(new NotFoundExceptionFilter())
