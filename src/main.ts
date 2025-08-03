@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { Logger, VersioningType } from '@nestjs/common';
 import { createWinstonLogger } from './shared/services/logger';
-import { configs } from './config';
+import { configs, SetUpSwagger } from './config';
 import { NotFoundExceptionFilter } from './shared/filters/router.exption.filter';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { setupGlobalPipes } from './config/validation.config';
@@ -36,6 +36,7 @@ async function bootstrap() {
       credentials: true,
     });
 
+    SetUpSwagger(app)
     const port = configService.get<number>("SERVER_PORT")
 
     // server start   

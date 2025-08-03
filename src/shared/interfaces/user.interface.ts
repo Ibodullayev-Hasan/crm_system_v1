@@ -6,7 +6,7 @@ export interface IUser {
 	full_name: string
 	email: string
 	password: string
-	tenantId: Tenant | Types.ObjectId
+	tenantId?: Tenant | Types.ObjectId
 	role?: Role
 	refresh_token?: string
 }

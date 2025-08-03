@@ -76,19 +76,6 @@ export class AuthService {
     }
   }
 
-
-  // log out
-  async logOut(userId: Types.ObjectId): Promise<void> {
-    try {
-      await this.userService.updateHashedRefreshToken(userId, null)
-
-    } catch (error: any) {
-      throw error instanceof HttpException
-        ? error
-        : new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
-  }
-
   // refresh access token
   async refresh(user: User): Promise<{ accToken: string, accessExpiresIn: string }> {
     try {
